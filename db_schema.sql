@@ -53,6 +53,7 @@ create table if not exists votes.t_vote
     poll_id  uuid references votes.t_poll not null,
     user_id  bigint                       not null,
     variant  int                          not null,
-    username text                         not null
+    username text,
+    fullname text
 );
 

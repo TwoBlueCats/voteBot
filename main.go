@@ -274,11 +274,18 @@ func main() {
 			}
 		}
 
+		fullname := c.Callback().Sender.FirstName
+		if c.Callback().Sender.LastName != "" && fullname != "" {
+			fullname += " "
+		}
+		fullname += c.Callback().Sender.LastName
+
 		tx := db.Create(&Vote{
 			PollID:   uuid.MustParse(data[1]),
 			UserID:   authorID,
 			Variant:  variant,
 			Username: c.Callback().Sender.Username,
+			Fullname: fullname,
 		})
 		if tx.Error != nil {
 			fmt.Println(">>", tx.Error)

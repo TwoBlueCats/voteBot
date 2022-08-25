@@ -73,7 +73,13 @@ func pollVotesToText(poll Poll, db *gorm.DB) string {
 				if idx != 0 {
 					message += ", "
 				}
-				message += "@" + vote.Username
+				var tag string
+				if len(vote.Username) != 0 {
+					tag = "@" + vote.Username
+				} else {
+					tag = "[" + vote.Fullname + "](tg://user?id=" + strconv.FormatInt(vote.UserID, 10) + ")"
+				}
+				message += tag
 			}
 			message += "\n"
 		}
@@ -89,6 +95,7 @@ type Vote struct {
 
 	Variant  int
 	Username string
+	Fullname string
 }
 
 func (Vote) TableName() string {
